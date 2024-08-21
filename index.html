@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>An Answer For Anything</title>
+    <link rel="icon" type="image/x-icon" href="icon.ico">
+    <style>
+        body{
+            background-color: black;
+            margin:none;
+        }
+        a{
+            color:red;
+        }
+        @keyframes fade-in{
+            0%{
+                opacity: 0%;
+            }
+            100%{
+                opacity: 100%;
+            }
+        }
+        #spacebar{
+            position:absolute;
+            bottom:10vw;
+            left:30vw;
+            font-size:2.5vw;
+            border:0.1vw solid white;
+            background:black;
+            width:40vw;
+            height:10vh;
+            color:white;
+            font-family: 'Courier New', Courier, monospace;
+            user-select: none;
+            text-align: center;
+            animation:ease-in 1s fade-in;
+
+        }
+        #answer{
+            font-size:5vw;
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+            color:white;
+        }
+        #credits{
+            font-family: 'Courier New', Courier, monospace;
+            font-size:1vw;
+            color:white;
+            position:absolute;
+            bottom:0;
+            left:30vw;
+            text-align: center;
+        }
+        @media screen and (max-width:462px) {
+            #answer{
+                font-size:5vh;
+            }
+            #credits{
+                font-size:2vh;
+                left:0;
+            }
+            #spacebar{
+                left:10vw;
+                height:10vh;
+                width:80vw;
+                bottom:30vh;
+            }
+        }
+        @media screen and (min-width:500px) and (max-width: 768px) {
+            #spacebar{
+                left:10vw;
+                height:20vh;
+                width:80vw;
+                bottom:25vh;
+            }
+            #credits{
+                font-size:2vw;
+                left:0;
+            }
+        
+    }
+    </style>
+</head>
+<body>
+    <p id="answer">Think of a question, then HOLD the spacebar. RELEASE whenever you're ready.</p>
+    <div id="spacebar" onmousedown="hold()" onmouseup="release()">___________________</div>
+   <h2 id="credits"> Made by Duy Nguyen<a href="https://github.com/Banacumbe27" target="_blank">Follow me on GitHub</a> Inpired by Michael Vsauce's <a href="https://www.youtube.com/shorts/X0LC9biDAwg">Book of Answers</a> </h2>
+</body>
+<script>
+    const answer=document.getElementById('answer');
+    const spacebar=document.getElementById('spacebar');
+    let received_data=[];
+    let amount_of_ans;
+    fetch('./answers.json').then(res=>res.json()).then(data=>{
+        received_data=data;
+        amount_of_ans=received_data.answers.length;
+    });
+    let i=0;
+    let holding=false;
+typewriter('answer',"Think of a question, then HOLD the spacebar. RELEASE whenever you're ready.",25);
+window.onkeydown=(e)=>{
+if(e.key.charCodeAt()===32){
+hold();
+}
+};
+window.onkeyup=(e)=>{
+if(e.key.charCodeAt()===32){
+release();
+}
+};
+function hold(){
+spacebar.style.background='white';
+spacebar.style.color='black';
+spacebar.style.border='0.1vw solid black';
+holding=true;
+startCycle();
+}
+function release(){
+    spacebar.style.background='black';
+spacebar.style.color='white';
+spacebar.style.border='0.1vw solid white';
+    holding=false;
+}
+function startCycle(){
+    answer.textContent=received_data.answers[i];
+    i=i>=amount_of_ans-1?0:i+1;
+    if(holding)setTimeout(startCycle,50);
+}
+function typewriter(id="",text="Text",time=100){
+    let i=0;
+    let tempText="";
+    const object=document.getElementById(id);
+    object.textContent="";
+const typingInterval=setInterval(()=>{
+tempText+=text.charAt(i);
+object.textContent=tempText;
+i++;
+if(i>=text.length)clearInterval(typingInterval);
+}
+,time
+);
+}   
+</script>
+</html>
