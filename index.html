@@ -105,11 +105,11 @@
     let i=0;
     let holding=false;
 typewriter('answer',"Think of a question, then HOLD the spacebar. RELEASE whenever you're ready.",25);
-spacebar.onmousedown=(e)=>{
+spacebar.onmousedown=spacebar.ontouchstart=(e)=>{
 e.preventDefault();
 hold();
 };
-spacebar.onmouseup=(e)=>{
+spacebar.onmouseup=spacebar.ontouchend=(e)=>{
 e.preventDefault();
 release();
 };
