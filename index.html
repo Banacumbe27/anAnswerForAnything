@@ -90,7 +90,7 @@
 </head>
 <body>
     <p id="answer">Think of a question, then HOLD the spacebar. RELEASE whenever you're ready.</p>
-    <div id="spacebar" onmousedown="hold()" onmouseup="release()">___________________</div>
+    <div id="spacebar" >___________________</div>
    <h2 id="credits"> Made by Duy Nguyen<a href="https://github.com/Banacumbe27" target="_blank">Follow me on GitHub</a> Inpired by Michael Vsauce's <a href="https://www.youtube.com/shorts/X0LC9biDAwg">Book of Answers</a> </h2>
 </body>
 <script>
@@ -105,6 +105,14 @@
     let i=0;
     let holding=false;
 typewriter('answer',"Think of a question, then HOLD the spacebar. RELEASE whenever you're ready.",25);
+spacebar.onmousedown=(e)=>{
+e.preventDefault();
+hold();
+};
+spacebar.onmouseup=(e)=>{
+e.preventDefault();
+release();
+};
 window.onkeydown=(e)=>{
 if(e.key.charCodeAt()===32){
 hold();
